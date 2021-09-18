@@ -12,7 +12,7 @@ function Login() {
 
   const LoginToApp = (e) => {
     e.preventDefault();
-
+    // bla bla
     auth
       .signInWithEmailAndPassword(email.password)
       .then((userAuth) => {
