@@ -3,33 +3,17 @@ import "./Login.css";
 import { auth } from "./firebase";
 import { login } from "./features/userSlice";
 import { useDispatch } from "react-redux";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfprofilePicilePic] = useState("");
   const dispatch = useDispatch();
 
-  const LoginToApp = (e) => {
-    e.preventDefault();
-    // bla bla
-    //a a a a  a a
-    auth
-      .signInWithEmailAndPassword(email.password)
-      .then((userAuth) => {
-        dispatch(
-          login({
-            email: userAuth.user.email,
-            uidL: userAuth.user.uid,
-            profileUrl: userAuth.user.photoURL,
-          })
-        );
-      })
-      .catch((error) => alert(error));
-  };
-  const register = () => {
+  const registerHandler = () => {
     if (!name) {
-      return alert("please enter a full name");
+      return alert("Please enter a full name!");
     }
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -52,46 +36,68 @@ function Login() {
       })
       .catch((error) => alert(error));
   };
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userAuth) => {
+        dispatch(
+          login({
+            emial: userAuth.user.email,
+            uid: userAuth.user.uid,
+            displayName: userAuth.user.displayName,
+            profileUrl: userAuth.user.photoURL,
+          })
+        );
+      })
+      .catch((error) => alert(error));
+  };
+
   return (
-    <div className="Login">
-      <h1>YOU are not logged in </h1>
-      <img src="" alt="" />
+    <div className="login">
+      <img
+        src="https://news.hitb.org/sites/default/files/styles/large/public/field/image/500px-LinkedIn_Logo.svg__1.png?itok=q_lR0Vks"
+        alt=""
+      />
+
       <form>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholer="Full name(required if registering)"
+          placeholder="Full Name"
           type="text"
         />
         <input
           value={profilePic}
-          onChange={(e) => setProfilePic(e.target.value)}
-          placeholer="Profile pic URL(optional)"
-          type="url"
+          onChange={(e) => setProfprofilePicilePic(e.target.value)}
+          placeholder="Profile Picture URL (optional)"
+          type="text"
         />
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholer="Email (required if registering)"
+          placeholder="Email"
           type="email"
         />
         <input
           value={password}
-          onChange={(e) => setPassword(e.target.password)}
-          placeholer="Password "
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
           type="password"
         />
-        <button type="submit" onClick={LoginToApp}>
-          Sign in{" "}
+        <button type="submit" onClick={loginHandler}>
+          Sign In
         </button>
       </form>
       <p>
-        Not a member ? {""}
-        <span className="login__register" onClick={register}>
-          Register now ~!
+        Not a member?{" "}
+        <span className="login__register" onClick={registerHandler}>
+          Register Now
         </span>
       </p>
     </div>
   );
 }
+
 export default Login;

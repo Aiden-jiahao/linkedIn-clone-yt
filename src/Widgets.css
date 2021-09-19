@@ -15,7 +15,6 @@
   justify-content: space-between;
   padding: 10px;
 }
-
 .widgets__header > h2 {
   font-size: 16px;
   font-weight: 400;
@@ -26,7 +25,6 @@
   padding: 10px;
   cursor: pointer;
 }
-
 .widgets__article:hover {
   background-color: whitesmoke;
 }
@@ -43,13 +41,10 @@
 .widgets__articleRight {
   flex: 1;
 }
-
 .widgets__articleRight > h4 {
   font-size: 14px;
 }
-
-
-.widgets__articleRight>p{
+.widgets__articleRight > p {
   font-size: 12px;
   color: gray;
 }

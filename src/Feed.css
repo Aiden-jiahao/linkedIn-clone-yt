@@ -1,8 +1,7 @@
-.Feed {
+.feed {
   flex: 0.6;
   margin: 0 20px;
 }
-
 .feed__inputContainer {
   background-color: white;
   padding: 10px;
@@ -28,8 +27,7 @@
 .feed__input > form > input {
   border: none;
   flex: 1;
-  margin-left: 10px;
-  outline-width: 0;
+  margin-left: 0;
   font-weight: 600;
 }
 

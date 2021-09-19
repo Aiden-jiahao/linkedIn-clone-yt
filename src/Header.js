@@ -1,44 +1,40 @@
 import React from "react";
 import "./Header.css";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import SearchIcon from "@material-ui/icons/Search";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import HeaderOption from "./HeaderOption";
-import HomeIcon from "@material-ui/icons/Home";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import ChatIcon from "@material-ui/icons/Chat";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { logout, selectUser } from "./features/userSlice";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import HomeIcon from "@material-ui/icons/Home";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./firebase";
-import { useDispatch, userSelector } from "react-redux";
-function Header() {
-  const user = userSelector(selectUser);
+import { logout, selectUser } from "./features/userSlice";
 
+function Header() {
   const dispatch = useDispatch();
   const logoutOfApp = () => {
     dispatch(logout());
     auth.signOut();
   };
+
   return (
     <div className="header">
       <div className="header__left">
-        <HeaderOption Icon={LinkedInIcon} title="LinkedIn" />
-        {/*<img src="https://www.flaticon.com/" alt="" /> */}
+        <LinkedInIcon color="primary" style={{ fontSize: 50 }} />
         <div className="header__search">
           <SearchIcon />
-          {/*SearchIcon, 在左边的header搜索里面的小图标 */}
           <input placeholder="Search" type="text" />
         </div>
       </div>
-
       <div className="header__right">
-        {/* reusuable component*/}
         <HeaderOption Icon={HomeIcon} title="Home" />
         <HeaderOption Icon={SupervisorAccountIcon} title="My Network" />
         <HeaderOption Icon={BusinessCenterIcon} title="Jobs" />
         <HeaderOption Icon={ChatIcon} title="Messaging" />
         <HeaderOption Icon={NotificationsIcon} title="Notifications" />
-        <HeaderOption avatar={true} title="me" onClick={logoutOfApp} />
+        <HeaderOption avatar={true} title="Logout" onClick={logoutOfApp} />
       </div>
     </div>
   );

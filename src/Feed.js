@@ -1,25 +1,26 @@
+import CreateIcon from "@material-ui/icons/Create";
 import React, { useEffect, useState } from "react";
 import "./Feed.css";
-import CreateIcon from "@material-ui/icons/Create";
+import InputOption from "./InputOption";
 import ImageIcon from "@material-ui/icons/Image";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import CalendarViewDayIcon from "@material-ui/icons/CalendarViewDay";
-import Posts from "./Posts";
+import Post from "./Posts";
 import { db } from "./firebase";
 import firebase from "firebase";
 import { useSelector } from "react-redux";
 import { selectUser } from "./features/userSlice";
-
 import FlipMove from "react-flip-move";
+
 function Feed() {
   const user = useSelector(selectUser);
-  const [input, setInput] = useState("");
   const [posts, setPosts] = useState([]);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     db.collection("posts")
-      .orderBy("timesstamp", "desc")
+      .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) =>
         setPosts(
           snapshot.docs.map((doc) => ({
@@ -29,22 +30,21 @@ function Feed() {
         )
       );
   }, []);
-  /* this create a real time listener to firebase, which means anytime we post sth , it will directly map from firebase into posts*/
-  const sendPosts = (e) => {
+  const sendPostHandler = (e) => {
     e.preventDefault();
     db.collection("posts").add({
       name: user.displayName,
       description: user.email,
       message: input,
-      photourl: user.photourl || "",
-      timestamp: firebase.firestore.FieldValue.severTimestamp(),
+      photoUrl: user.photoUrl || "",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
     setInput("");
   };
+
   return (
     <div className="feed">
-      {" "}
       <div className="feed__inputContainer">
         <div className="feed__input">
           <CreateIcon />
@@ -54,31 +54,30 @@ function Feed() {
               onChange={(e) => setInput(e.target.value)}
               type="text"
             />
-            <button onClick={sendPosts} type="submit">
+            <button onClick={sendPostHandler} type="submit">
               Send
             </button>
           </form>
         </div>
         <div className="feed__inputOptions">
-          <inputOption Icon={ImageIcon} title="Photo" color="#70B5f9" />
-          <inputOption Icon={SubscriptionsIcon} title="Video" color="#7A33E" />
-          <inputOption Icon={EventNoteIcon} title="Event" color="#C0CBCD" />
-          <inputOption
+          <InputOption Icon={ImageIcon} title="Photo" color="#70B5F9" />
+          <InputOption Icon={SubscriptionsIcon} title="Video" color="#e7A33E" />
+          <InputOption Icon={EventNoteIcon} title="Event" color="#C0CBCD" />
+          <InputOption
             Icon={CalendarViewDayIcon}
             title="Write article"
             color="#7FC15E"
           />
         </div>
       </div>
-      {/* Posts*/}
       <FlipMove>
-        {posts.map(({ id, data: { name, description, message, photourl } }) => (
-          <Posts
+        {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
+          <Post
             key={id}
             name={name}
             description={description}
             message={message}
-            photourl={photourl}
+            photoUrl={photoUrl}
           />
         ))}
       </FlipMove>
